@@ -1,0 +1,33 @@
+class Solution:
+    def canPartitionKSubsets(self, nums: List[int], k: int) -> bool:
+        if sum(nums) % k != 0:
+            return False
+        
+        nums.sort(reverse=True)
+        target = sum(nums) // k
+        res = [0] * k
+
+        def backtrack(i):
+            if i == len(nums):
+                return True
+            
+            for j in range(k):
+                if j > 0 and res[j] == res[j - 1]:
+                    continue
+                if res[j] + nums[i] <= target:
+                    res[j] += nums[i]
+                    if backtrack(i + 1):
+                        return True
+                    
+                    res[j] -= nums[i]
+                
+                if res[j] == 0:
+                    break
+            
+            return False
+        
+        return backtrack(0)
+
+        """
+        time: 
+        """
